@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+// @ts-ignore - d3-tile doesn't have types
 import { tile as d3tile } from 'd3-tile';
+// @ts-ignore - shpjs doesn't have types
 import shp from 'shpjs';
 import { Upload, Map as MapIcon, BarChart3, ZoomIn, ZoomOut, RotateCcw, AlertCircle } from 'lucide-react';
 
@@ -58,13 +60,13 @@ export function AdvancedGISPortal() {
       .size([width, height]);
 
     if (mapType === 'satellite') {
-      tile = tile.url((d) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${d.z}/${d.y}/${d.x}`);
+      tile = tile.url((d: any) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${d.z}/${d.y}/${d.x}`);
     } else if (mapType === 'terrain') {
-      tile = tile.url((d) => `https://stamen-tiles.a.ssl.fastly.net/terrain/${d.z}/${d.y}/${d.x}.jpg`);
+      tile = tile.url((d: any) => `https://stamen-tiles.a.ssl.fastly.net/terrain/${d.z}/${d.y}/${d.x}.jpg`);
     } else if (mapType === 'dark') {
-      tile = tile.url((d) => `https://${['a', 'b', 'c'][d.x % 3]}.basemaps.cartocdn.com/dark_all/${d.z}/${d.x}/${d.y}.png`);
+      tile = tile.url((d: any) => `https://${['a', 'b', 'c'][d.x % 3]}.basemaps.cartocdn.com/dark_all/${d.z}/${d.x}/${d.y}.png`);
     } else {
-      tile = tile.url((d) => `https://a.tile.openstreetmap.org/${d.z}/${d.y}/${d.x}.png`);
+      tile = tile.url((d: any) => `https://a.tile.openstreetmap.org/${d.z}/${d.y}/${d.x}.png`);
     }
 
     const zoom = d3.zoom<SVGSVGElement, unknown>()
@@ -77,11 +79,11 @@ export function AdvancedGISPortal() {
           .data(tiles, d => String(d))
           .join("image")
             .attr("class", "tile")
-            .attr("xlink:href", d => d.url)
+            .attr("xlink:href", (d: any) => d.url)
             .attr("width", tiles.scale)
             .attr("height", tiles.scale)
-            .attr("x", d => Math.round(d.x))
-            .attr("y", d => Math.round(d.y));
+            .attr("x", (d: any) => Math.round(d.x))
+            .attr("y", (d: any) => Math.round(d.y));
         
         g.attr("transform", `translate(${transform.x}, ${transform.y}) scale(${transform.k})`);
       });
@@ -95,8 +97,8 @@ export function AdvancedGISPortal() {
 
     riverPaths.forEach(river => {
       g.append('path')
-        .datum({ type: 'LineString', coordinates: river.path })
-        .attr('d', pathGenerator)
+        .datum({ type: 'LineString', coordinates: river.path } as any)
+        .attr('d', pathGenerator as any)
         .attr('stroke', '#4a9eff')
         .attr('stroke-width', 2 / Math.sqrt(d3.zoomTransform(svg.node()!).k))
         .attr('fill', 'none');

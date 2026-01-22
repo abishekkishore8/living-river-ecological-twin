@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+// @ts-ignore - shpjs doesn't have types
 import shp from 'shpjs';
 
 export async function POST(request: NextRequest) {
@@ -14,10 +15,9 @@ export async function POST(request: NextRequest) {
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
 
-    // Process shapefile
-    const geojson = await shp(buffer);
+    // Process shapefile - shpjs expects ArrayBuffer or string
+    const geojson = await shp(arrayBuffer);
 
     return NextResponse.json({
       success: true,

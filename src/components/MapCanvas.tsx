@@ -63,7 +63,8 @@ export function MapCanvas() {
       if (!isMounted || mapInstanceRef.current) return;
 
       try {
-        const { Map, View } = await import('ol');
+        const ol = await import('ol');
+        const { Map: OLMap, View } = ol;
         const TileLayer = (await import('ol/layer/Tile')).default;
         const VectorLayer = (await import('ol/layer/Vector')).default;
         const VectorSource = (await import('ol/source/Vector')).default;
@@ -101,7 +102,7 @@ export function MapCanvas() {
         vectorSource.addFeature(new Feature({ geometry: riverLine }));
 
         // Create map first with base layers
-        const map = new Map({
+        const map = new OLMap({
           target: container,
           layers: [baseLayer, vectorLayer],
           view: new View({ center: fromLonLat([82, 25]), zoom: 6 }),
@@ -111,7 +112,7 @@ export function MapCanvas() {
         mapInstanceRef.current = map;
 
         // Create overlay layers after map is initialized
-        const overlayLayers = new Map<string, VectorLayer<VectorSource>>();
+        const overlayLayers: Record<string, any> = {};
 
         // Layer colors
         const layerColors: Record<string, { fill: string; stroke: string }> = {
@@ -159,7 +160,7 @@ export function MapCanvas() {
             })
           });
 
-          overlayLayers.set(layer.id, overlayLayer);
+          overlayLayers[layer.id] = overlayLayer;
           map.addLayer(overlayLayer);
         });
 
@@ -198,7 +199,7 @@ export function MapCanvas() {
     if (!overlayLayers) return;
 
     layers.forEach(layer => {
-      const overlayLayer = overlayLayers.get(layer.id);
+      const overlayLayer = overlayLayers[layer.id];
       if (overlayLayer) {
         overlayLayer.setVisible(layer.enabled);
       }

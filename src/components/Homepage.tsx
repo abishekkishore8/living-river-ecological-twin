@@ -75,7 +75,7 @@ export function Homepage({ onNavigateToDashboard }: HomepageProps) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Hero Section with WebGL Canvas */}
-      <HeroScene onNavigateToDashboard={onNavigateToDashboard} />
+      <HeroScene />
 
       {/* Additional Content Sections */}
       <section className="relative py-20 px-8 overflow-hidden">

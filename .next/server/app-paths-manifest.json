@@ -1,5 +1,9 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/shapefile/route": "app/api/shapefile/route.js",
   "/home/page": "app/home/page.js",
+  "/api/spatial/calculate/route": "app/api/spatial/calculate/route.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/api/water-quality/route": "app/api/water-quality/route.js"
+  "/api/water-quality/route": "app/api/water-quality/route.js",
+  "/page": "app/page.js"
 }

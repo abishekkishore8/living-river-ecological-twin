@@ -171,9 +171,9 @@ export function D3EnhancedChart() {
           .duration(200)
           .style('opacity', 1);
         tooltip.html(`
-          <div>DO: ${d.dissolvedOxygen.toFixed(2)}</div>
-          <div>pH: ${d.ph.toFixed(2)}</div>
-          <div>Turbidity: ${d.turbidity.toFixed(2)}</div>
+          <div>DO: ${(d as any).dissolvedOxygen.toFixed(2)}</div>
+          <div>pH: ${(d as any).ph.toFixed(2)}</div>
+          <div>Turbidity: ${(d as any).turbidity.toFixed(2)}</div>
         `)
           .style('left', (event.pageX + 10) + 'px')
           .style('top', (event.pageY - 10) + 'px');

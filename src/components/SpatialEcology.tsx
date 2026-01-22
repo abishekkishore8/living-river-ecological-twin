@@ -17,7 +17,7 @@ interface ShapefileLayer {
   id: string;
   name: string;
   source: VectorSource;
-  layer: VectorLayer<VectorSource>;
+  layer: VectorLayer<any>;
   visible: boolean;
 }
 
@@ -527,7 +527,7 @@ export function SpatialEcology() {
                         {Object.entries(stats.types).map(([type, count]) => (
                           <div key={type} className="flex justify-between ml-2">
                             <span className="text-gray-500">{type}:</span>
-                            <span className="font-medium">{count}</span>
+                            <span className="font-medium">{String(count)}</span>
                           </div>
                         ))}
                       </div>
