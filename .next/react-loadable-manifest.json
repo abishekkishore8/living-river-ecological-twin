@@ -1,0 +1,56 @@
+{
+  "components\\MapCanvas.tsx -> ol": {
+    "id": "components\\MapCanvas.tsx -> ol",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_ol_index_js.js"
+    ]
+  },
+  "components\\MapCanvas.tsx -> ol/Feature": {
+    "id": "components\\MapCanvas.tsx -> ol/Feature",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/control": {
+    "id": "components\\MapCanvas.tsx -> ol/control",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_ol_control_js.js"
+    ]
+  },
+  "components\\MapCanvas.tsx -> ol/geom/LineString": {
+    "id": "components\\MapCanvas.tsx -> ol/geom/LineString",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/geom/Point": {
+    "id": "components\\MapCanvas.tsx -> ol/geom/Point",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/geom/Polygon": {
+    "id": "components\\MapCanvas.tsx -> ol/geom/Polygon",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/layer/Tile": {
+    "id": "components\\MapCanvas.tsx -> ol/layer/Tile",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/layer/Vector": {
+    "id": "components\\MapCanvas.tsx -> ol/layer/Vector",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/proj": {
+    "id": "components\\MapCanvas.tsx -> ol/proj",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/source/Vector": {
+    "id": "components\\MapCanvas.tsx -> ol/source/Vector",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/source/XYZ": {
+    "id": "components\\MapCanvas.tsx -> ol/source/XYZ",
+    "files": []
+  },
+  "components\\MapCanvas.tsx -> ol/style": {
+    "id": "components\\MapCanvas.tsx -> ol/style",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_ol_style_js.js"
+    ]
+  }
+}

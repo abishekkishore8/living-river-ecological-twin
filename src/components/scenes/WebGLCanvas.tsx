@@ -1,10 +1,10 @@
+'use client';
+
 /**
  * WebGL Canvas Component
  * 
  * This component serves as a placeholder for the Three.js Digital Twin Canvas.
  * In production, this will be replaced with a full Three.js scene implementation.
- * 
- * IMPORTANT: Designers must not draw animals here. This is replaced at runtime by Three.js.
  */
 
 import { ThreeScene } from './ThreeScene';

@@ -12,7 +12,7 @@ export function CommunityFeed() {
   const feedItems: FeedItem[] = [
     {
       id: '1',
-      user: 'Dr. Sharma',
+      user: 'Dr. S A Hussain',
       time: '2h ago',
       message: 'Dolphin sighting near Varanasi ghat. Group of 3 individuals observed.',
       type: 'observation'

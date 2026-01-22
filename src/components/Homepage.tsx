@@ -315,7 +315,7 @@ export function Homepage({ onNavigateToDashboard }: HomepageProps) {
               className="px-10 py-5 rounded-xl flex items-center gap-3 mx-auto hover:opacity-90 transition-all shadow-lg text-[18px]"
               style={{ backgroundColor: 'var(--accent-teal)', color: '#07141E' }}
             >
-              <span className="font-semibold">Launch Spatial Ecology Dashboard</span>
+              <span className="font-semibold">Launch Advanced GIS Portal</span>
               <ArrowRight className="w-6 h-6" />
             </button>
           </div>

@@ -1,10 +1,39 @@
-import { useEffect, useRef } from 'react';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useAppStore } from '@/store/useAppStore';
 
 export function RiverHealthGauge() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { riverHealth, setRiverHealth } = useAppStore();
+  const [lastUpdated, setLastUpdated] = useState<string>('');
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    // Fetch data on mount
+    fetch('/api/water-quality')
+      .then(res => res.json())
+      .then(data => {
+        setRiverHealth(data.riverHealth);
+        setLastUpdated(new Date().toLocaleTimeString());
+      })
+      .catch(err => console.error('Failed to fetch river health:', err));
+
+    // Update every 5 minutes
+    const interval = setInterval(() => {
+      fetch('/api/water-quality')
+        .then(res => res.json())
+        .then(data => {
+          setRiverHealth(data.riverHealth);
+          setLastUpdated(new Date().toLocaleTimeString());
+        })
+        .catch(err => console.error('Failed to fetch river health:', err));
+    }, 300000); // 5 minutes
+
+    return () => clearInterval(interval);
+  }, [setRiverHealth]);
+
+  useEffect(() => {
+    if (!canvasRef.current || !riverHealth) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -17,13 +46,10 @@ export function RiverHealthGauge() {
     const centerY = 140;
     const radius = 90;
     
-    // Calculate health score (weighted average)
-    const DO = 75; // Dissolved Oxygen
-    const BOD = 65; // BOD
-    const Flow = 80; // Flow
-    const Biodiversity = 70; // Biodiversity
+    const healthScore = riverHealth.overallScore;
     
-    const healthScore = (DO * 0.3 + BOD * 0.25 + Flow * 0.2 + Biodiversity * 0.25);
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Draw background arc
     ctx.beginPath();
@@ -60,10 +86,10 @@ export function RiverHealthGauge() {
 
     // Draw parameter indicators
     const params = [
-      { label: 'DO', value: DO, x: 30, y: 50 },
-      { label: 'BOD', value: BOD, x: 100, y: 30 },
-      { label: 'Flow', value: Flow, x: 170, y: 30 },
-      { label: 'Bio', value: Biodiversity, x: 220, y: 50 },
+      { label: 'DO', value: riverHealth.do, x: 30, y: 50 },
+      { label: 'BOD', value: riverHealth.bod, x: 100, y: 30 },
+      { label: 'Flow', value: riverHealth.flow, x: 170, y: 30 },
+      { label: 'Bio', value: riverHealth.biodiversity, x: 220, y: 50 },
     ];
 
     params.forEach(param => {
@@ -77,7 +103,16 @@ export function RiverHealthGauge() {
       ctx.fillText(`${param.value}`, param.x, param.y + 14);
     });
 
-  }, []);
+  }, [riverHealth]);
+
+  const getLastUpdateText = () => {
+    if (!lastUpdated) return 'Loading...';
+    const minutes = Math.floor((Date.now() - new Date(`1970-01-01T${lastUpdated}`).getTime()) / 60000);
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    const hours = Math.floor(minutes / 60);
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  };
 
   return (
     <div className="glass rounded-lg p-4">
@@ -86,7 +121,7 @@ export function RiverHealthGauge() {
       </h3>
       <canvas ref={canvasRef} className="w-full" />
       <div className="mt-2 text-[11px]" style={{ color: 'var(--text-muted)' }}>
-        <p>Last updated: 2 hours ago</p>
+        <p>Last updated: {getLastUpdateText()}</p>
         <p className="mt-1">Location: Varanasi Stretch</p>
       </div>
     </div>

@@ -1,0 +1,5 @@
+{
+  "/home/page": "app/home/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/api/water-quality/route": "app/api/water-quality/route.js"
+}

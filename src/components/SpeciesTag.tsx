@@ -1,9 +1,10 @@
 interface SpeciesTagProps {
   text: string;
   position: { top?: string; bottom?: string; left?: string; right?: string };
+  onClick?: () => void;
 }
 
-export function SpeciesTag({ text, position }: SpeciesTagProps) {
+export function SpeciesTag({ text, position, onClick }: SpeciesTagProps) {
   return (
     <div
       className="absolute glass rounded-lg px-4 py-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity"
@@ -21,6 +22,7 @@ export function SpeciesTag({ text, position }: SpeciesTagProps) {
         color: 'var(--text-primary)',
         zIndex: 30
       }}
+      onClick={onClick}
     >
       {text}
     </div>

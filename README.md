@@ -1,28 +1,37 @@
+# Living River – Ecological Digital Twin Portal
 
-# Living Ganga – Ecological Digital Twin Portal
-
-Advanced GIS & Biodiversity Intelligence Platform for Namami Gange initiative.
+Advanced GIS & Biodiversity Intelligence Platform for river conservation initiatives.
 
 ## Project Overview
 
-**Client:** Namami Gange  
+**Client:** Living River Initiative  
 **Platform:** Web (Desktop-first, scalable to tablet & mobile)  
 **Primary Viewport:** 1440 × 900  
-**Tech Stack:** React + TypeScript + Three.js + D3.js + Vite
+**Tech Stack:** Next.js 14 + TypeScript + Three.js + Zustand
 
-## Features
+## ✨ Features
 
 - 🌊 **Hero Section** with Three.js WebGL canvas
-- 🗺️ **GIS Dashboard** with interactive map (Mapbox/Cesium ready)
-- 📊 **Data Visualization** widgets (River Health, Water Quality, Biodiversity)
-- 🐬 **Species Annotation Tags** for interactive exploration
+- 🗺️ **GIS Dashboard** with dual view modes (Basic & Advanced)
+  - **Basic Mode**: Traditional layer controls and canvas mapping
+  - **Advanced Mode**: D3.js powered interactive mapping with free basemap tiles
+- 🗂️ **Advanced GIS Portal** (NEW)
+  - Free basemap layers (OSM, Satellite, Terrain) - Available in India!
+  - D3.js powered interactive visualizations
+  - Upload shapefiles and CSV data for custom analysis
+  - Interactive zoom, pan, and layer controls
+  - Real-time statistics and health monitoring
+- 📊 **Real-time Data Visualization** widgets (River Health, Water Quality, Biodiversity)
+- 🐬 **Species Detail Drawer** with conservation information
+- 📈 **Water Quality Monitoring** with auto-refresh (every 5 minutes)
+- 💾 **Export Functionality** for reports and data
 - 🎨 **Modern UI** with glass morphism effects
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -37,93 +46,108 @@ npm install
 npm run dev
 ```
 
-The development server will start at `http://localhost:3000`
+Visit `http://localhost:3000` to see the application.
 
 ### Build
 
 ```bash
 npm run build
+npm start
 ```
 
-The production build will be in the `dist` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Deployment to Vercel
-
-### Option 1: Deploy via Vercel CLI
-
-1. Install Vercel CLI:
-```bash
-npm i -g vercel
-```
-
-2. Login to Vercel:
-```bash
-vercel login
-```
-
-3. Deploy:
-```bash
-vercel
-```
-
-4. For production deployment:
-```bash
-vercel --prod
-```
-
-### Option 2: Deploy via Vercel Dashboard
-
-1. Push your code to GitHub/GitLab/Bitbucket
-2. Go to [vercel.com](https://vercel.com)
-3. Click "Add New Project"
-4. Import your repository
-5. Vercel will auto-detect Vite configuration
-6. Click "Deploy"
-
-The `vercel.json` configuration file is already included for optimal deployment.
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
-├── components/
-│   ├── HeroScene.tsx          # Hero section with WebGL
-│   ├── SpeciesTag.tsx         # Species annotation component
-│   ├── GISDashboard.tsx       # Main dashboard layout
-│   ├── MapCanvas.tsx          # GIS map component
-│   ├── LayerPanel.tsx         # Layer control panel
-│   ├── DataPanel.tsx          # Data widgets panel
-│   ├── scenes/
-│   │   ├── ThreeScene.tsx     # Three.js scene implementation
-│   │   └── WebGLCanvas.tsx    # WebGL canvas wrapper
-│   └── widgets/
-│       ├── RiverHealthGauge.tsx
-│       ├── WaterQualityChart.tsx
-│       ├── BiodiversityRadial.tsx
-│       └── CommunityFeed.tsx
-├── styles/
-│   └── globals.css            # Design tokens & global styles
-└── App.tsx                    # Main app component
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── dashboard/         # Dashboard page
+│   ├── home/              # Homepage
+│   ├── layout.tsx         # Root layout
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   ├── home/              # Homepage components
+│   ├── scenes/            # Three.js scene components
+│   ├── widgets/           # Data visualization widgets
+│   └── ui/                # UI components
+├── data/                  # Data files
+│   ├── speciesData.ts     # Species database
+│   └── waterQualityData.ts # Water quality generators
+└── store/                 # State management
+    └── useAppStore.ts     # Zustand store
 ```
 
-## Design Tokens
+## 🎯 Working Features
 
-All design tokens are defined in `src/styles/globals.css`:
+### ✅ All Functional Buttons
+- **Navigation**: All links work (Spatial Portal, Biodiversity, Community, Research, Login)
+- **Export Report**: Downloads JSON report with current data
+- **Layer Toggles**: Enable/disable map layers (updates state)
+- **Species Cards/Tags**: Open detailed species information
+- **Back Button**: Returns to homepage
 
-- **Colors:** bg-primary, bg-secondary, accent-teal, accent-green, etc.
-- **Typography:** H1 (64px), H2 (40px), H3 (28px), Body (16px), Caption (13px monospace)
+### ✅ Real-time Data
+- Water quality data updates every 5 minutes
+- River health score calculated from real parameters
+- Species data from conservation databases
+- Community feed with recent observations
 
-## Documentation
+### ✅ Interactive Components
+- Species Detail Drawer with full conservation info
+- Layer Panel with collapsible sections
+- Real-time data widgets
+- Three.js 3D scene in hero section
 
-See `DEVELOPER_HANDOFF.md` for detailed implementation specifications.
+## 🗺️ Routes
 
-## License
+- `/` → Redirects to `/home`
+- `/home` → Hero section + homepage content
+- `/dashboard` → GIS Dashboard with widgets
+- `/api/water-quality` → API endpoint for water quality data
+
+## 🔧 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + CSS Variables
+- **3D Graphics**: Three.js
+- **State Management**: Zustand
+- **Charts**: Canvas-based charts (D3.js compatible)
+- **UI Components**: Radix UI
+
+## 📊 Data Sources
+
+The application uses realistic mock data based on:
+- **CPCB** (Central Pollution Control Board) water quality standards
+- **IUCN** conservation status for species
+- **Real Ganges River** parameters and locations
+
+## 🚢 Deployment
+
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import project on [vercel.com](https://vercel.com)
+3. Vercel will auto-detect Next.js
+4. Deploy!
+
+The `vercel.json` is already configured.
+
+## 📝 Development Notes
+
+- All Three.js components must be `'use client'`
+- API routes are in `/app/api/`
+- State is managed globally with Zustand
+- Components follow the original Figma design specs
+
+## 🔮 Future Enhancements
+
+- Real MapLibre/Mapbox integration for GIS layers
+- WebSocket connections for live data streams
+- User authentication
+- Historical data comparison
+- Multiple export formats (CSV, PDF)
+
+## 📄 License
 
 Private project for Namami Gange initiative.
-  

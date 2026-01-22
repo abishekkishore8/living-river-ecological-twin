@@ -1,4 +1,4 @@
-# Deployment Guide - Living Ganga Ecological Digital Twin
+# Deployment Guide - Living River Ecological Digital Twin
 
 This guide will walk you through deploying your project to GitHub and then to Vercel.
 
@@ -24,7 +24,7 @@ Git is already initialized. Create your first commit:
 
 ```bash
 git add .
-git commit -m "Initial commit: Living Ganga Ecological Digital Twin Portal"
+git commit -m "Initial commit: Living River Ecological Digital Twin Portal"
 ```
 
 ## Step 3: Create GitHub Repository

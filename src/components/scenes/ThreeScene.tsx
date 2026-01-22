@@ -1,26 +1,9 @@
+'use client';
+
 /**
  * Three.js Scene Structure
  * 
  * PART 2 — THREE.JS SCENE STRUCTURE (NO ABSTRACT SHAPES)
- * 
- * Scene Architecture:
- * Scene
- * ├── Environment
- * │   ├── Skybox
- * │   ├── SunLight
- * │   ├── Fog
- * ├── WaterSystem
- * │   ├── SurfaceMesh
- * │   ├── UnderwaterVolume
- * ├── Fauna
- * │   ├── DolphinGroup
- * │   ├── Gharial
- * │   ├── Turtle
- * │   ├── FishSchools
- * ├── Terrain
- * │   ├── Riverbed
- * │   ├── Ghats
- * │   ├── Forest
  */
 
 import { useEffect, useRef } from 'react';
@@ -117,21 +100,6 @@ export function ThreeScene({ className = '' }: ThreeSceneProps) {
     waterSurface.position.y = 0;
     waterSurface.receiveShadow = true;
     scene.add(waterSurface);
-
-    // Water System - Underwater Volume (simplified as a colored fog effect)
-    // This would be more complex in a full implementation
-
-    // Fauna - DolphinGroup (placeholder - would load .glb models)
-    // In production, these would be loaded GLTFLoader models
-    // const dolphinGeometry = new THREE.BoxGeometry(1, 0.5, 2);
-    // const dolphinMaterial = new THREE.MeshStandardMaterial({ 
-    //   color: 0x9CCFD8,
-    //   roughness: 0.1,
-    //   metalness: 0.9 // wet skin shader approximation
-    // });
-    // const dolphin = new THREE.Mesh(dolphinGeometry, dolphinMaterial);
-    // dolphin.position.set(-2, 0.5, -2);
-    // scene.add(dolphin);
 
     // Terrain - Riverbed
     const riverbedGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);

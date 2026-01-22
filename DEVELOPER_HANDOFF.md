@@ -1,4 +1,4 @@
-# Living Ganga – Ecological Digital Twin Portal
+# Living River – Ecological Digital Twin Portal
 ## Developer Handoff Document
 
 ### Project Overview
@@ -16,7 +16,7 @@ Advanced GIS & Biodiversity Intelligence Platform for Namami Gange initiative.
 ### Frame 00 — Cover
 - **Purpose:** Presentation cover only
 - **Size:** 1440 × 900
-- **Title:** "Living Ganga – Ecological Digital Twin"
+- **Title:** "Living River – Ecological Digital Twin"
 - **Subtitle:** "Advanced GIS & Biodiversity Intelligence Platform"
 - **Background:** Gradient (#07141E → #0C1F2E)
 

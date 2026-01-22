@@ -1,47 +1,11 @@
+'use client';
+
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Eye, EyeOff } from 'lucide-react';
-
-interface LayerToggle {
-  id: string;
-  name: string;
-  enabled: boolean;
-}
-
-interface LayerSection {
-  title: string;
-  layers: LayerToggle[];
-}
+import { useAppStore } from '@/store/useAppStore';
 
 export function LayerPanel() {
-  const [sections, setSections] = useState<LayerSection[]>([
-    {
-      title: 'Hydrology',
-      layers: [
-        { id: 'river-network', name: 'River Network', enabled: true },
-        { id: 'flow-direction', name: 'Flow Direction', enabled: false },
-        { id: 'depth', name: 'Depth / Bathymetry', enabled: true },
-      ]
-    },
-    {
-      title: 'Water Quality',
-      layers: [
-        { id: 'dissolved-oxygen', name: 'Dissolved Oxygen', enabled: true },
-        { id: 'ph', name: 'pH', enabled: false },
-        { id: 'turbidity', name: 'Turbidity', enabled: false },
-        { id: 'bod-cod', name: 'BOD / COD', enabled: false },
-      ]
-    },
-    {
-      title: 'Biodiversity',
-      layers: [
-        { id: 'dolphin-habitat', name: 'Dolphin Habitat', enabled: true },
-        { id: 'gharial-habitat', name: 'Gharial Habitat', enabled: true },
-        { id: 'turtle-nesting', name: 'Turtle Nesting', enabled: false },
-        { id: 'fish-richness', name: 'Fish Richness', enabled: false },
-      ]
-    }
-  ]);
-
+  const { layers, toggleLayer } = useAppStore();
   const [expandedSections, setExpandedSections] = useState<string[]>([
     'Hydrology', 'Water Quality', 'Biodiversity'
   ]);
@@ -54,14 +18,20 @@ export function LayerPanel() {
     );
   };
 
-  const toggleLayer = (sectionIndex: number, layerIndex: number) => {
-    setSections(prev => {
-      const newSections = [...prev];
-      newSections[sectionIndex].layers[layerIndex].enabled = 
-        !newSections[sectionIndex].layers[layerIndex].enabled;
-      return newSections;
-    });
-  };
+  const sections = [
+    {
+      title: 'Hydrology',
+      layers: layers.filter(l => l.category === 'hydrology')
+    },
+    {
+      title: 'Water Quality',
+      layers: layers.filter(l => l.category === 'water-quality')
+    },
+    {
+      title: 'Biodiversity',
+      layers: layers.filter(l => l.category === 'biodiversity')
+    }
+  ];
 
   return (
     <div 
@@ -73,7 +43,7 @@ export function LayerPanel() {
           Layer Control
         </h3>
         
-        {sections.map((section, sectionIndex) => (
+        {sections.map((section) => (
           <div key={section.title} className="mb-4">
             <button
               onClick={() => toggleSection(section.title)}
@@ -91,10 +61,10 @@ export function LayerPanel() {
             
             {expandedSections.includes(section.title) && (
               <div className="space-y-2 pl-2">
-                {section.layers.map((layer, layerIndex) => (
+                {section.layers.map((layer) => (
                   <button
                     key={layer.id}
-                    onClick={() => toggleLayer(sectionIndex, layerIndex)}
+                    onClick={() => toggleLayer(layer.id)}
                     className="w-full flex items-center justify-between py-2 px-3 rounded-md hover:bg-white/5 transition-colors"
                   >
                     <span 

@@ -1,11 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { useAppStore } from '@/store/useAppStore';
 
 export function WaterQualityChart() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [hoveredPoint, setHoveredPoint] = useState<{ x: number; y: number; value: number; label: string } | null>(null);
+  const { waterQualityData, setWaterQualityData } = useAppStore();
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    // Fetch data on mount
+    fetch('/api/water-quality')
+      .then(res => res.json())
+      .then(data => {
+        setWaterQualityData(data.waterQuality);
+      })
+      .catch(err => console.error('Failed to fetch water quality:', err));
+
+    // Update every 5 minutes
+    const interval = setInterval(() => {
+      fetch('/api/water-quality')
+        .then(res => res.json())
+        .then(data => {
+          setWaterQualityData(data.waterQuality);
+        })
+        .catch(err => console.error('Failed to fetch water quality:', err));
+    }, 300000);
+
+    return () => clearInterval(interval);
+  }, [setWaterQualityData]);
+
+  useEffect(() => {
+    if (!canvasRef.current || waterQualityData.length === 0) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -18,11 +43,21 @@ export function WaterQualityChart() {
     const chartWidth = canvas.width - padding.left - padding.right;
     const chartHeight = canvas.height - padding.top - padding.bottom;
 
-    // Mock data for 7 time points
-    const timeLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const doData = [7.2, 7.5, 7.3, 7.8, 7.6, 7.4, 7.7]; // Dissolved Oxygen
-    const phData = [7.8, 7.9, 7.7, 8.0, 7.9, 7.8, 7.9]; // pH
-    const turbidityData = [12, 15, 13, 10, 11, 14, 12]; // Turbidity
+    // Get last 7 days of data
+    const recentData = waterQualityData.slice(-7);
+    const timeLabels = recentData.map((_, i) => {
+      const date = new Date(recentData[i].timestamp);
+      return date.toLocaleDateString('en-US', { weekday: 'short' });
+    });
+
+    const doData = recentData.map(d => d.dissolvedOxygen);
+    const phData = recentData.map(d => d.ph);
+    const turbidityData = recentData.map(d => d.turbidity);
+
+    // Find max values for scaling
+    const maxDO = Math.max(...doData, 10);
+    const maxPH = Math.max(...phData, 10);
+    const maxTurbidity = Math.max(...turbidityData, 25);
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -70,9 +105,9 @@ export function WaterQualityChart() {
     };
 
     // Draw lines
-    drawLine(doData, '#00E6B8', 10); // Teal for DO
-    drawLine(phData, '#3CFF9E', 10); // Cyan for pH
-    drawLine(turbidityData, '#FFB020', 20); // Amber for Turbidity
+    drawLine(doData, '#00E6B8', maxDO); // Teal for DO
+    drawLine(phData, '#3CFF9E', maxPH); // Cyan for pH
+    drawLine(turbidityData, '#FFB020', maxTurbidity); // Amber for Turbidity
 
     // Draw X-axis labels
     ctx.fillStyle = '#9CCFD8';
@@ -93,7 +128,7 @@ export function WaterQualityChart() {
     ctx.fillText('Value', 0, 0);
     ctx.restore();
 
-  }, []);
+  }, [waterQualityData]);
 
   return (
     <div className="glass rounded-lg p-4">

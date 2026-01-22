@@ -1,25 +1,34 @@
+'use client';
+
 import { SpeciesTag } from './SpeciesTag';
 import { WebGLCanvas } from './scenes/WebGLCanvas';
+import Link from 'next/link';
+import { useAppStore } from '@/store/useAppStore';
+import { getSpeciesByName } from '@/data/speciesData';
 
-interface HeroSceneProps {
-  onNavigateToDashboard: () => void;
-}
+export function HeroScene() {
+  const { setSelectedSpecies, openDrawer } = useAppStore();
 
-export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
+  const handleSpeciesTagClick = (speciesName: string) => {
+    const species = getSpeciesByName(speciesName);
+    if (species) {
+      setSelectedSpecies(species);
+      openDrawer('species');
+    }
+  };
+
   return (
     <div 
       className="relative w-full mx-auto overflow-hidden" 
       style={{ 
         backgroundColor: 'var(--bg-primary)',
-        width: '1440px',
+        width: '100%',
+        maxWidth: '1440px',
         height: '900px',
-        maxWidth: '100vw',
         maxHeight: '100vh'
       }}
     >
       {/* Layer Order: TOP → BOTTOM */}
-      
-      {/* Hero_UI_Overlay - UI elements on top */}
       
       {/* Hero_WebGL_Canvas (Placeholder) */}
       <WebGLCanvas />
@@ -42,45 +51,49 @@ export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
         >
         <div className="max-w-[1440px] mx-auto px-8 h-full flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link href="/home" className="flex items-center gap-3">
             <div 
               className="w-[140px] h-8 flex items-center justify-center rounded-lg"
               style={{ backgroundColor: 'var(--accent-teal)' }}
             >
               <span className="text-[14px] font-bold" style={{ color: '#07141E' }}>
-                LIVING GANGA
+                LIVING RIVER
               </span>
             </div>
-          </div>
+          </Link>
           
           {/* Navigation Buttons */}
           <div className="flex items-center gap-4">
-            <button 
-              onClick={onNavigateToDashboard}
+            <Link 
+              href="/dashboard"
               className="text-[15px] hover:opacity-80 transition-opacity px-4 py-2"
               style={{ color: 'var(--text-primary)' }}
             >
               Spatial Portal
-            </button>
+            </Link>
             <button 
+              onClick={() => handleSpeciesTagClick('Gangetic Dolphin')}
               className="text-[15px] hover:opacity-80 transition-opacity px-4 py-2"
               style={{ color: 'var(--text-primary)' }}
             >
               Biodiversity
             </button>
-            <button 
+            <Link 
+              href="/community"
               className="text-[15px] hover:opacity-80 transition-opacity px-4 py-2"
               style={{ color: 'var(--text-primary)' }}
             >
               Community
-            </button>
-            <button 
+            </Link>
+            <Link 
+              href="/research"
               className="text-[15px] hover:opacity-80 transition-opacity px-4 py-2"
               style={{ color: 'var(--text-primary)' }}
             >
               Research
-            </button>
-            <button 
+            </Link>
+            <Link 
+              href="/login"
               className="text-[15px] hover:opacity-90 transition-opacity px-6 py-2 rounded-lg border-2"
               style={{ 
                 borderColor: 'var(--accent-teal)', 
@@ -88,9 +101,9 @@ export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
               }}
             >
               Login
-            </button>
+            </Link>
           </div>
-          </div>
+        </div>
         </nav>
 
         {/* Hero Text Group - Centered, 800px width */}
@@ -106,7 +119,7 @@ export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
                 color: 'var(--text-primary)'
               }}
             >
-              Living Ganga
+              Living River
             </h1>
             
             <p 
@@ -119,9 +132,9 @@ export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
               India's Ecological Digital Twin
             </p>
             
-            <button
-              onClick={onNavigateToDashboard}
-              className="px-8 py-4 rounded-[14px] font-semibold hover:opacity-90 transition-opacity shadow-lg"
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-[14px] font-semibold hover:opacity-90 transition-opacity shadow-lg"
               style={{ 
                 width: '260px',
                 height: '56px',
@@ -131,20 +144,24 @@ export function HeroScene({ onNavigateToDashboard }: HeroSceneProps) {
               }}
             >
               Explore Digital Twin
-            </button>
+            </Link>
           </div>
         </div>
 
         {/* Species Annotation Tags - UI Only, Component: SpeciesTag */}
         <div className="absolute inset-0 pointer-events-none" style={{ paddingTop: '72px' }}>
-          <SpeciesTag 
-            text="Gangetic Dolphin – Explore"
-            position={{ top: '30%', left: '20%' }}
-          />
-          <SpeciesTag 
-            text="Gharial – Habitat Status"
-            position={{ top: '50%', right: '25%' }}
-          />
+          <div className="pointer-events-auto">
+            <SpeciesTag 
+              text="Gangetic Dolphin – Explore"
+              position={{ top: '30%', left: '20%' }}
+              onClick={() => handleSpeciesTagClick('Gangetic Dolphin')}
+            />
+            <SpeciesTag 
+              text="Gharial – Habitat Status"
+              position={{ top: '50%', right: '25%' }}
+              onClick={() => handleSpeciesTagClick('Gharial')}
+            />
+          </div>
         </div>
       </div>
     </div>
